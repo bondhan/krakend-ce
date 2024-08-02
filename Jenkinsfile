@@ -33,7 +33,7 @@ pipeline {
     stage('Clone') {
       steps {
           withCredentials([string(credentialsId: 'github-secret-SbgVa', variable: 'GITHUB_TOKEN')]) {
-          sh 'rm -rf .'
+          sh 'rm -rf *'
           sh 'git clone https://${GITHUB_TOKEN}@github.com/bondhan/krakend-ce.git'
         }
       }
