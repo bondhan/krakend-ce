@@ -33,14 +33,15 @@ pipeline {
     stage('Clone') {
       steps {
           withCredentials([string(credentialsId: 'github-secret-SbgVa', variable: 'GITHUB_TOKEN')]) {
-          sh 'rm -rf *'
-          sh 'git clone https://${GITHUB_TOKEN}@github.com/bondhan/krakend-ce.git'
+//           sh 'git clone https://${GITHUB_TOKEN}@github.com/bondhan/krakend-ce.git'
+            sh 'git checkout test-jenkins && git pull'
         }
       }
     }
     stage('Compile') {
       steps {
         container('golang') {
+          sh 'apk add make'
           sh 'make build'
         }
       }
