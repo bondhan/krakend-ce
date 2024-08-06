@@ -4,7 +4,10 @@ pipeline {
   }
   agent {
     kubernetes {
-     podTemplate(cloud: 'homek8s', yaml: readFile('jenkins-pod.yaml'))
+        environment {
+            POD_TEMPLATE = readFile('jenkins-pod.yaml')
+        }
+        podTemplate(yaml: env.POD_TEMPLATE) {}
     }
   }
   stages {
