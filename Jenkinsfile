@@ -4,29 +4,7 @@ pipeline {
   }
   agent {
     kubernetes {
-      yaml '''
-        apiVersion: v1
-        kind: Pod
-        spec:
-          containers:
-          - name: golang
-            image: golang:1.22.5-alpine
-            command:
-            - cat
-            tty: true
-          - name: docker
-            image: docker:latest
-            command:
-            - cat
-            tty: true
-            volumeMounts:
-             - mountPath: /var/run/docker.sock
-               name: docker-sock
-          volumes:
-          - name: docker-sock
-            hostPath:
-              path: /var/run/docker.sock
-        '''
+     podTemplate(cloud: 'homek8s', yaml: readFile('jenkins-pod.yaml'))
     }
   }
   stages {
