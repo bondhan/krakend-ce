@@ -2,12 +2,12 @@ pipeline {
   options {
     disableConcurrentBuilds()
   }
+  environment {
+    POD_TEMPLATE = readFile('jenkins-pod.yaml')
+  }
   agent {
     kubernetes {
-        environment {
-            POD_TEMPLATE = readFile('jenkins-pod.yaml')
-        }
-        podTemplate(yaml: env.POD_TEMPLATE) {}
+        yaml: env.POD_TEMPLATE
     }
   }
   stages {
