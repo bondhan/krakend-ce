@@ -8,12 +8,12 @@ metadata:
 spec:
   containers:
     - name: golang
-      image: docker-registry.docker-registry:5000/golang:1.22.5-alpine
+      image: golang:1.22.5-alpine
       command:
         - cat
       tty: true
     - name: docker
-      image: docker-registry.docker-registry:5000/docker:latest
+      image: docker:latest
       command:
         - cat
       tty: true
