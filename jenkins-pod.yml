@@ -1,22 +1,11 @@
 apiVersion: v1
 kind: Pod
 metadata:
+  name: jenkins-pod-golang
+  namespace: jenkins
   labels:
-    jenkins: pod-agent
-    namespace: jenkins
+    jenkins: pod-golang
 spec:
-  initContainers:
-    - name: init-docker
-      image: busybox
-      command:
-        - sh
-        - -c
-        - cp /etc/config/daemon.json /etc/docker/daemon.json
-      volumeMounts:
-        - name: docker-config
-          mountPath: /etc/config
-        - name: docker-socket
-          mountPath: /var/run/docker.sock
   containers:
     - name: golang
       image: golang:1.22.5-alpine
@@ -26,11 +15,14 @@ spec:
     - name: docker
       image: docker:latest
       command:
-        - cat
+        - sh
+        - -c
+        - cp /etc/config/daemon.json /etc/docker/daemon.json
+        - cat /etc/docker/daemon.json
       tty: true
       volumeMounts:
         - name: docker-config
-          mountPath: /etc/docker
+          mountPath: /etc/config
         - name: docker-sock
           mountPath: /var/run/docker.sock
   volumes:
