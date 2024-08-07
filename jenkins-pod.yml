@@ -6,16 +6,16 @@ metadata:
   labels:
     jenkins: pod-golang
 spec:
+  hostAliases:
+    - ip: "192.168.100.241"
+      hostnames:
+        - "dcr.bondhan.local"
   containers:
     - name: docker
       image: docker:latest
       securityContext:
         privileged: true
-      command: ["sh","-c"]
-      args:
-      - |
-        dockerd &
-        printf "\n192.168.100.241 dcr.bondhan.local" >> /etc/hosts
+      command: ["dockerd"]
       volumeMounts:
         - name: docker-config
           mountPath: /etc/docker/
