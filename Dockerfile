@@ -14,9 +14,9 @@ FROM alpine:${ALPINE_VERSION}
 
 LABEL maintainer="community@krakend.io"
 
-RUN apk upgrade --no-cache --no-interactive && apk add --no-cache ca-certificates tzdata
+RUN apk update && apk upgrade --no-cache --no-interactive && apk add --no-cache ca-certificates tzdata
 
-RUN useradd -r -c "KrakenD user" -U krakend
+RUN adduser -D -g 'krakend' krakend
 USER krakend
 
 COPY --chown=krakend:krakend --from=builder /app/krakend /usr/bin/krakend
