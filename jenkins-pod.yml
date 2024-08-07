@@ -7,21 +7,23 @@ metadata:
     jenkins: pod-golang
 spec:
   containers:
-    - name: golang
-      image: golang:1.22.5-alpine
-      command:
-        - cat
-      tty: true
     - name: docker
       image: docker:latest
       command:
-        - cat
+        - dockerd
       tty: true
       volumeMounts:
         - name: docker-config
           mountPath: /etc/config/
         - name: docker-sock
-          mountPath: /var/run/docker.sock
+          mountPath: /var/run/
+      securityContext:
+        privileged: true
+    - name: golang
+      image: golang:1.22.5-alpine
+      command:
+        - cat
+      tty: true
   volumes:
     - name: docker-config
       configMap:
