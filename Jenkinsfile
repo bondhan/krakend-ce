@@ -11,6 +11,15 @@ pipeline {
     }
   }
   stages {
+    stage('Docker Login') {
+        steps {
+            container('docker') {
+                script {
+                    sh "echo ${DOCKER_CREDENTIALS_PSW} | docker login -u ${DOCKER_CREDENTIALS_USR} --password-stdin dcr.bondhan.local"
+                }
+            }
+        }
+    }
     stage('Build Docker Image') {
       steps {
         container('docker') {
@@ -19,13 +28,6 @@ pipeline {
           sh 'make docker'
         }
       }
-    }
-    stage('Docker Login') {
-        steps {
-            script {
-                sh "echo ${DOCKER_CREDENTIALS_PSW} | docker login -u ${DOCKER_CREDENTIALS_USR} --password-stdin"
-            }
-        }
     }
     stage('Tag & Push Docker Image') {
       steps {
