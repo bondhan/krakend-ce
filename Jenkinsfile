@@ -25,15 +25,19 @@ pipeline {
         container('docker') {
           sh 'apk add make'
           sh 'apk add git'
-          sh 'make docker'
+//           sh 'make docker'
         }
       }
     }
     stage('Tag & Push Docker Image') {
       steps {
         container('docker') {
-          sh 'docker tag devopsfaith/krakend:2.7.0 dcr.bondhan.local/krakend:2.7.0'
-          sh 'docker push dcr.bondhan.local/krakend:2.7.0'
+          sh 'cat /etc/hosts'
+          sh 'docker pull alpine:latest'
+          sh 'docker tag alpine:latest dcr.bondhan.local/alpine:latest'
+          sh 'docker push dcr.bondhan.local/alpine:latest'
+//           sh 'docker tag devopsfaith/krakend:2.7.0 dcr.bondhan.local/krakend:2.7.0'
+//           sh 'docker push dcr.bondhan.local/krakend:2.7.0'
         }
       }
     }
