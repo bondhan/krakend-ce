@@ -8,26 +8,18 @@ pipeline {
     }
   }
   stages {
-//     stage('Clone') {
-//       steps {
-//           withCredentials([string(credentialsId: 'github-secret-SbgVa', variable: 'GITHUB_TOKEN')]) {
-//           sh 'git clone https://${GITHUB_TOKEN}@github.com/bondhan/krakend-ce.git .'
-//         }
-//       }
-//     }
     stage('Build') {
       steps {
         container('golang') {
-          sh 'apk add make'
-          sh 'make build'
+          sh 'make docker-internal'
         }
       }
     }
     stage('Tag & Push') {
       steps {
         container('docker') {
-          sh 'docker build -t dcr.bondhan.local/krakend-ce:latest .'
-          sh 'docker push dcr.bondhan.local/krakend-ce:latest'
+          sh 'docker tag devopsfaith/krakend:2.7.0 dcr.bondhan.local/krakend:2.7.0'
+          sh 'docker push dcr.bondhan.local/krakend:2.7.0'
         }
       }
     }
