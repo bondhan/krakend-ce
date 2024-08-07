@@ -11,6 +11,7 @@ pipeline {
     stage('Build') {
       steps {
         container('golang') {
+          sh 'apk add make'
           sh 'make docker'
         }
       }
