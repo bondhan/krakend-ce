@@ -11,7 +11,7 @@ pipeline {
     stage('Build') {
       steps {
         container('golang') {
-          sh 'make docker-internal'
+          sh 'make docker'
         }
       }
     }
