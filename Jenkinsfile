@@ -1,4 +1,7 @@
 pipeline {
+   environment {
+        DOCKER_CREDENTIALS = credentials('docker_registry_login') // Replace with your credential ID
+   }
   options {
     disableConcurrentBuilds()
   }
@@ -8,7 +11,7 @@ pipeline {
     }
   }
   stages {
-    stage('Build') {
+    stage('Build Docker Image') {
       steps {
         container('docker') {
           sh 'apk add make'
@@ -17,9 +20,17 @@ pipeline {
         }
       }
     }
-    stage('Tag & Push') {
+    stage('Docker Login') {
+        steps {
+            script {
+                sh "echo ${DOCKER_CREDENTIALS_PSW} | docker login -u ${DOCKER_CREDENTIALS_USR} --password-stdin"
+            }
+        }
+    }
+    stage('Tag & Push Docker Image') {
       steps {
         container('docker') {
+          sh 'docker login '
           sh 'docker tag docker.io/devopsfaith/krakend:2.7.0 dcr.bondhan.local/krakend:2.7.0'
           sh 'docker push dcr.bondhan.local/krakend:2.7.0'
         }
