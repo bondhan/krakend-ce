@@ -14,6 +14,7 @@ pipeline {
     stage('Docker Login') {
         steps {
             container('docker') {
+                sh 'cat /etc/hosts'
                 script {
                     sh "echo ${DOCKER_CREDENTIALS_PSW} | docker login -u ${DOCKER_CREDENTIALS_USR} --password-stdin dcr.bondhan.local"
                 }
@@ -32,7 +33,6 @@ pipeline {
     stage('Tag & Push Docker Image') {
       steps {
         container('docker') {
-          sh 'cat /etc/hosts'
           sh 'docker pull alpine:latest'
           sh 'docker tag alpine:latest dcr.bondhan.local/alpine:latest'
           sh 'docker push dcr.bondhan.local/alpine:latest'
