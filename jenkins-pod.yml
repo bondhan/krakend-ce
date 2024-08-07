@@ -23,11 +23,6 @@ spec:
           mountPath: /var/run/
       securityContext:
         privileged: true
-    - name: golang
-      image: golang:1.22.5-alpine
-      command:
-        - cat
-      tty: true
   volumes:
     - name: docker-config
       configMap:
