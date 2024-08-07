@@ -15,10 +15,10 @@ spec:
       args:
       - |
         echo "192.168.100.241 dcr.bondhan.local" >> /etc/hosts
-        dockerd
+        cat
       volumeMounts:
         - name: docker-config
-          mountPath: /etc/config/
+          mountPath: /etc/docker/
   volumes:
     - name: docker-config
       configMap:
