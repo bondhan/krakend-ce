@@ -9,24 +9,17 @@ spec:
   containers:
     - name: docker
       image: docker:latest
-      command:
-        - sh
-        - -c
-        - |
-          dockerd
-          echo "192.168.100.241 dcr.bondhan.local" >> /etc/hosts
-      tty: true
-      volumeMounts:
-        - name: docker-config
-          mountPath: /etc/docker/
-        - name: docker-sock
-          mountPath: /var/run/
       securityContext:
         privileged: true
+      command: ["sh","-c"]
+      args:
+      - |
+        echo "192.168.100.241 dcr.bondhan.local" >> /etc/hosts
+        dockerd
+      volumeMounts:
+        - name: docker-config
+          mountPath: /etc/config/
   volumes:
     - name: docker-config
       configMap:
         name: docker-daemon-config
-    - name: docker-sock
-      hostPath:
-        path: /var/run/docker.sock
