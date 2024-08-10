@@ -11,7 +11,7 @@ pipeline {
     }
   }
   stages {
-    stage('Docker Login') {
+    stage('Docker login') {
         steps {
             container('docker') {
                 script {
@@ -20,7 +20,7 @@ pipeline {
             }
         }
     }
-    stage('Build Docker Image') {
+    stage('Build docker image') {
       steps {
         container('docker') {
           sh 'apk add make'
@@ -28,14 +28,27 @@ pipeline {
         }
       }
     }
-    stage('Tag & Push Docker Image') {
+    stage('Tag, push image for develop branch') {
+      when {
+        branch 'develop'
+      }
       steps {
         container('docker') {
-          sh 'docker tag devopsfaith/krakend:2.7.0 dcr.bondhan.local/krakend:2.7.0'
-          sh 'docker push dcr.bondhan.local/krakend:2.7.0'
+          sh 'docker tag devopsfaith/krakend:2.7.0 dcr.bondhan.local/krakend:develop'
+          sh 'docker push dcr.bondhan.local/krakend:develop'
+        }
+      }
+    }
+    stage('Tag, push image for master branch') {
+      when {
+        branch 'master'
+      }
+      steps {
+        container('docker') {
+          sh 'docker tag devopsfaith/krakend:2.7.0 dcr.bondhan.local/krakend:latest'
+          sh 'docker push dcr.bondhan.local/krakend:latest'
         }
       }
     }
   }
-
 }
