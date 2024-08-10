@@ -19,10 +19,11 @@ RUN apt-get update && \
 
 LABEL maintainer="community@krakend.io"
 
-RUN adduser -D -g 'krakend' krakend
+
+RUN useradd -r -c "KrakenD user" -U krakend
 USER krakend
 
-COPY --chown=krakend:krakend --from=builder /app/krakend /usr/bin/krakend
+COPY --chown=krakend:krakend --from=builder /usr/src/app/krakend /usr/bin/krakend
 
 VOLUME [ "/etc/krakend" ]
 ENTRYPOINT [ "/usr/bin/krakend" ]
