@@ -19,8 +19,6 @@ RUN apt-get update && \
 
 LABEL maintainer="community@krakend.io"
 
-RUN apk update && apk upgrade --no-cache --no-interactive && apk add --no-cache ca-certificates tzdata
-
 RUN adduser -D -g 'krakend' krakend
 USER krakend
 
