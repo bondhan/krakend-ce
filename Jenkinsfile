@@ -1,3 +1,17 @@
+def getBranchUtilsFromEnv(envB) {
+    if (envB == 'production') {
+        return 'master'
+    } else if (envB == 'demo') {
+        return 'master'
+    } else if(envB == 'sandbox') {
+        return 'release'
+    } else if(envB == 'staging') {
+        return 'development'
+    } else {
+        return 'development'
+    }
+}
+
 pipeline {
    environment {
         DOCKER_CREDENTIALS = credentials('docker_registry_login') // Replace with your credential ID
@@ -10,6 +24,26 @@ pipeline {
         yamlFile 'jenkins-pod.yml'
     }
   }
+  options {
+    timestamps()
+  }
+    parameters {
+        choice(
+            name: 'CI_GIT_TYPE',
+            choices: ['', 'branch', 'commit', 'tag'],
+            description: 'Which Environment?'
+        )
+        string(
+            name: 'CI_GIT_SOURCE',
+            defaultValue: '',
+            description: 'Which git source?'
+        )
+  }
+  environment {
+        KRAKEND_REPO = 'krakend-ce'
+        SINBAD_ENV = "${env.JOB_BASE_NAME}"
+        UTILS_BRANCH = getBranchUtilsFromEnv(SINBAD_ENV)
+    }
   stages {
     stage('Docker login') {
         steps {
@@ -24,7 +58,9 @@ pipeline {
       steps {
         container('docker') {
           sh 'apk add make'
-          sh 'make docker'
+//           sh 'make docker'
+           sh "echo SINBAD_ENV=${SINBAD_ENV}"
+           sh "echo UTILS_BRANCH=${UTILS_BRANCH}"
         }
       }
     }
