@@ -130,6 +130,7 @@ pipeline {
 //           sh 'make docker'
            sh "echo SINBAD_ENV=${SINBAD_ENV}"
            sh "echo UTILS_BRANCH=${UTILS_BRANCH}"
+           sh "echo IMAGE_TAG=${IMAGE_TAG}"
         }
       }
     }
