@@ -32,12 +32,12 @@ pipeline {
     choice(
       name: 'CI_GIT_TYPE',
       choices: ['', 'branch', 'commit', 'tag'],
-      description: 'Which Environment?'
+      description: 'Which Source?'
     )
     string(
       name: 'CI_GIT_SOURCE',
       defaultValue: '',
-      description: 'Which git source?'
+      description: 'Input value?'
     )
   }
   environment {
@@ -111,10 +111,7 @@ pipeline {
       steps {
         container('docker') {
           sh 'apk add make'
-//           sh 'make docker'
-           sh "echo SINBAD_ENV=${SINBAD_ENV}"
-           sh "echo UTILS_BRANCH=${UTILS_BRANCH}"
-           sh "echo IMAGE_TAG=${IMAGE_TAG}"
+          sh 'make docker'
         }
       }
     }
