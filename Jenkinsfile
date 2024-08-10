@@ -44,14 +44,14 @@ pipeline {
     KRAKEND_REPO = 'krakend-ce'
     DOCKER_CREDENTIALS = credentials('docker_registry_login')
     SINBAD_ENV = "${env.BRANCH_NAME}"
-    UTILS_BRANCH = getBranchUtilsFromEnv(SINBAD_ENV)
+//     UTILS_BRANCH = getBranchUtilsFromEnv(SINBAD_ENV)
 //     IMAGE_TAG = getImgTagFromBranchName("${env.BRANCH_NAME}")
   }
   stages {
     stage('Checkout') {
         steps {
             script {
-                sh "echo SINBAD_ENV=${env.SINBAD_ENV}"
+                sh "echo fck"
 
 //                 checkout([
 //                     $class: 'GitSCM',
