@@ -10,7 +10,12 @@ WORKDIR /app
 
 RUN make build
 
-FROM alpine:${ALPINE_VERSION}
+FROM debian:buster-slim
+
+RUN apt-get update && \
+	apt-get install -y ca-certificates && \
+	update-ca-certificates && \
+	rm -rf /var/lib/apt/lists/*
 
 LABEL maintainer="community@krakend.io"
 
