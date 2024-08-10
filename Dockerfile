@@ -19,7 +19,6 @@ RUN apt-get update && \
 
 LABEL maintainer="community@krakend.io"
 
-
 RUN useradd -r -c "KrakenD user" -U krakend
 USER krakend
 
