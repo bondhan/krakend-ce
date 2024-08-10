@@ -51,18 +51,19 @@ pipeline {
     stage('Checkout') {
         steps {
             script {
+                sh "echo SINBAD_ENV=${SINBAD_ENV}"
 
-                checkout([
-                    $class: 'GitSCM',
-                    branches: [[name: "*/${env.BRANCH_NAME}"]],
-                    doGenerateSubmoduleConfigurations: false,
-                    extensions: [],
-                    submoduleCfg: [],
-                    userRemoteConfigs: [[
-                        url: "${env.GIT_URL}",
-                        credentialsId: 'docker_registry_login'
-                    ]]
-                ])
+//                 checkout([
+//                     $class: 'GitSCM',
+//                     branches: [[name: "*/${env.BRANCH_NAME}"]],
+//                     doGenerateSubmoduleConfigurations: false,
+//                     extensions: [],
+//                     submoduleCfg: [],
+//                     userRemoteConfigs: [[
+//                         url: "${env.GIT_URL}",
+//                         credentialsId: 'docker_registry_login'
+//                     ]]
+//                 ])
 //                         env.GIT_MESSAGE = sh(returnStdout: true, script: 'git log -1 --pretty=%B').trim()
 //                         env.GIT_COMMIT = sh(returnStdout: true, script: 'git rev-parse HEAD').trim()
 //                         env.GIT_AUTHOR = sh(returnStdout: true, script: "git --no-pager show -s --format='%an' ${env.GIT_COMMIT}").trim()
