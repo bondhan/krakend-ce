@@ -13,37 +13,33 @@ def getBranchUtilsFromEnv(envB) {
 }
 
 pipeline {
-   environment {
-        DOCKER_CREDENTIALS = credentials('docker_registry_login') // Replace with your credential ID
-   }
   options {
     disableConcurrentBuilds()
+    timestamps()
   }
   agent {
     kubernetes {
-        yamlFile 'jenkins-pod.yml'
+      yamlFile 'jenkins-pod.yml'
     }
   }
-  options {
-    timestamps()
-  }
-    parameters {
-        choice(
-            name: 'CI_GIT_TYPE',
-            choices: ['', 'branch', 'commit', 'tag'],
-            description: 'Which Environment?'
-        )
-        string(
-            name: 'CI_GIT_SOURCE',
-            defaultValue: '',
-            description: 'Which git source?'
-        )
+  parameters {
+    choice(
+      name: 'CI_GIT_TYPE',
+      choices: ['', 'branch', 'commit', 'tag'],
+      description: 'Which Environment?'
+    )
+    string(
+      name: 'CI_GIT_SOURCE',
+      defaultValue: '',
+      description: 'Which git source?'
+    )
   }
   environment {
-        KRAKEND_REPO = 'krakend-ce'
-        SINBAD_ENV = "${env.JOB_BASE_NAME}"
-        UTILS_BRANCH = getBranchUtilsFromEnv(SINBAD_ENV)
-    }
+    DOCKER_CREDENTIALS = credentials('docker_registry_login')
+    KRAKEND_REPO = 'krakend-ce'
+    SINBAD_ENV = "${env.JOB_BASE_NAME}"
+    UTILS_BRANCH = getBranchUtilsFromEnv(SINBAD_ENV)
+  }
   stages {
     stage('Docker login') {
         steps {
