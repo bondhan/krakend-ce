@@ -51,7 +51,7 @@ pipeline {
     stage('Checkout') {
         steps {
             script {
-                sh "echo SINBAD_ENV=${SINBAD_ENV}"
+                sh "echo SINBAD_ENV=${env.SINBAD_ENV}"
 
 //                 checkout([
 //                     $class: 'GitSCM',
