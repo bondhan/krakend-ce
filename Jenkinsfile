@@ -138,7 +138,7 @@ pipeline {
       steps {
         container('docker') {
           sh "docker tag devopsfaith/krakend:2.7.0 dcr.bondhan.local/krakend:$IMAGE_TAG"
-          sh "docker push dcr.bondhan.local/krakend:develop"
+          sh "docker push dcr.bondhan.local/krakend:$IMAGE_TAG"
         }
       }
     }
