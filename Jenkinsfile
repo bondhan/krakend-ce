@@ -95,6 +95,11 @@ pipeline {
                         env.GIT_AUTHOR = sh(returnStdout: true, script: "git --no-pager show -s --format='%an' ${env.GIT_COMMIT}").trim()
                         env.GIT_TIME = sh(returnStdout: true, script: "git show -s --format=%cD ${env.GIT_COMMIT}").trim()
                 }
+
+                sh "echo GIT_MESSAGE=${env.GIT_MESSAGE}"
+                sh "echo GIT_COMMIT=${env.GIT_COMMIT}"
+                sh "echo GIT_AUTHOR=${env.GIT_AUTHOR}"
+                sh "echo GIT_TIME=${env.GIT_TIME}"
             }
         }
     }
