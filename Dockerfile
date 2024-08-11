@@ -10,19 +10,17 @@ WORKDIR /app
 
 RUN make build
 
-FROM debian:buster-slim
+FROM alpine:${ALPINE_VERSION}
 
-RUN apt-get update && \
-	apt-get install -y ca-certificates && \
-	update-ca-certificates && \
-	rm -rf /var/lib/apt/lists/*
+RUN apk upgrade --no-cache --no-interactive && apk add --no-cache ca-certificates tzdata && \
+    adduser -u 1000 -S -D -H krakend && \
+    mkdir /etc/krakend
 
 LABEL maintainer="community@krakend.io"
 
-RUN useradd -r -c "KrakenD user" -U krakend
-USER krakend
+COPY --from=builder /app/krakend /usr/bin/krakend
 
-COPY --chown=krakend:krakend --from=builder /app/krakend /usr/bin/krakend
+USER 1000
 
 VOLUME [ "/etc/krakend" ]
 ENTRYPOINT [ "/usr/bin/krakend" ]
